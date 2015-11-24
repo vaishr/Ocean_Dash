@@ -29,11 +29,15 @@ Enemy.prototype.render = function() {
 // This class requires an update(), render() and
 // a handleInput() method.
 var Player = function() {
+    this.sprite = 'images/char-pink-girl.png';
+    this.score = 0;
 
+    this.x = 200;
+    this.y = 420;
 }
 
 Player.prototype.render = function() {
-
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
 Player.prototype.update = function() {
