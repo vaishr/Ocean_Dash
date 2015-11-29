@@ -32,7 +32,7 @@ var Player = function() {
     this.sprite = 'images/char-pink-girl.png';
     this.score = 0;
 
-    this.x = 200;
+    this.x = -2;
     this.y = 401;
 }
 
@@ -44,20 +44,18 @@ Player.prototype.update = function() {
 };
 
 Player.prototype.handleInput = function(direction) {
-    if (this.x <= ctx.canvas.width && this.y <= ctx.canvas.height) {
-        if (direction === 'left' && this.x > 0) {
-            this.x = this.x - 101;
-            console.log("move left, this.x", this.x);
-        }
-        if (direction === 'down' && this.y < 400) {
-            this.y = this.y + 82;
-        }
-        if (direction === 'right' && this.x < 700) {
-            this.x = this.x + 101;
-        }
-        if (direction === 'up' && this.y > 0) {
-            this.y = this.y - 82;
-        }
+    if (direction === 'left' && this.x > 0) {
+        this.x = this.x - 101;
+        console.log('this.x', this.x)
+    }
+    if (direction === 'down' && this.y < 400) {
+        this.y = this.y + 82;
+    }
+    if (direction === 'right' && this.x < 700) {
+        this.x = this.x + 101;
+    }
+    if (direction === 'up' && this.y > 0) {
+        this.y = this.y - 82;
     }
 }
 
