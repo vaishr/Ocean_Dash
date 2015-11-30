@@ -7,8 +7,11 @@ var Enemy = function() {
     // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
     this.x = 0;
-    this.speed = 100;
+    this.speed = Math.random()*800;
+    this.y = roadRows[Math.floor(Math.random()*roadRows.length)];
 };
+
+var roadRows = [73, 155, 237];
 
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
@@ -16,8 +19,12 @@ Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
-    if (dt == 0) return;
-    this.x = (this.x ) + (dt * this.speed);
+    if (dt === 0) return;
+    this.x = this.x + (dt * this.speed);
+    ////playerx[99,200,301,503,604,705]
+    // if (this.x - (dt * this.speed) === player.x && this.y === player.y) {
+    //     console.log("gameOver!");
+    // }
 };
 
 // Draw the enemy on the screen, required method for game
@@ -41,35 +48,43 @@ Player.prototype.render = function() {
 };
 
 Player.prototype.update = function() {
+    if (this.y < 0) {
+        console.log("congrats! you made it! game over!");
+    }
 };
 
 Player.prototype.handleInput = function(direction) {
     if (direction === 'left' && this.x > 0) {
         this.x = this.x - 101;
-        console.log('this.x', this.x)
     }
     if (direction === 'down' && this.y < 400) {
         this.y = this.y + 82;
     }
     if (direction === 'right' && this.x < 700) {
         this.x = this.x + 101;
+        console.log("this.x", this.x);
     }
     if (direction === 'up' && this.y > 0) {
         this.y = this.y - 82;
     }
 }
 
+
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
-var enemy1 = new Enemy();
-var enemy2 = new Enemy();
-var enemy3 = new Enemy();
 
-enemy1.y = 1;
-enemy2.y = 200;
-enemy3.y = 300;
+var allEnemies = [];
 
-var allEnemies = [enemy1, enemy2, enemy3];
+function newEnemy() {
+    var enemy = new Enemy();
+    allEnemies.push(enemy);
+};
+
+newEnemy();
+newEnemy();
+setInterval(newEnemy, Math.random()*2000);
+
+
 // Place the player object in a variable called player
 
 var player = new Player();
