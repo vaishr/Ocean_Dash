@@ -28,6 +28,8 @@ Enemy.prototype.render = function() {
 var Player = function() {
     this.sprite = 'images/char-pink-girl.png';
     this.score = 0;
+    this.level = 1;
+    this.lives = 0;
 
     this.x = -2;
     this.y = 401;
@@ -65,8 +67,7 @@ setInterval(newEnemy, 500);
 
 var player = new Player();
 
-var Token = function(value) {
-    this.value = value;
+var Token = function() {
     this.visible = true;
     this.x = columnX[Math.floor(Math.random()*columnX.length)];
     this.y = roadRows[Math.floor(Math.random()*roadRows.length)];
@@ -80,21 +81,57 @@ Token.prototype.render = function() {
 }
 
 Token.prototype.update = function() {
-
-}
-
-Token.prototype.addToScore = function() {
     if (this.visible && this.x === player.x && this.y === player.y) {
-    this.visible = false;
-    player.score += this.value;
-    document.getElementById('score').innerHTML = 'Score : ' + player.score;
+        this.visible = false;
+        if (this.addScore) { this.addScore() };
+        if (this.increaseLives) { this.increaseLives() };
+        if (this.advanceLevel) { this.advanceLevel() };
+        return true;
     }
 }
 
-var gem1 = new Token(10);
-var gem2 = new Token(10);
+var allTokens = [];
 
-var allTokens = [gem1, gem2];
+var newGem = function() {
+    var gem = new Token();
+    gem.value = 10;
+    gem.addScore = function() {
+        player.score += gem.value;
+        document.getElementById('score').innerHTML = 'Score : ' + player.score;
+    }
+    allTokens.push(gem);
+}
+
+var newHeart = function() {
+    var heart = new Token();
+    heart.sprite = 'images/Heart.png';
+    heart.increaseLives = function() {
+        player.lives++;
+        document.getElementById('lives').innerHTML = 'Lives : ' + player.lives;
+    }
+    heart.decreaseLives = function() {
+        player.lives < 1? player.lives = 0: player.lives--;
+        document.getElementById('lives').innerHTML = 'Lives : ' + player.lives;
+    }
+    allTokens.push(heart);
+}
+
+var newKey = function() {
+    var key = new Token();
+    key.sprite = 'images/Key.png';
+    key.advanceLevel = function() {
+        player.level++;
+        document.getElementById('level').innerHTML = 'Level : ' + player.level;
+    }
+    allTokens.push(key);
+}
+
+newGem();
+newGem();
+newGem();
+
+newHeart();
+newKey();
 
 
 

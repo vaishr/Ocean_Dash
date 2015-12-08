@@ -68,7 +68,6 @@ var Engine = (function(global) {
      * game loop.
      */
     function init() {
-        reset();
         lastTime = Date.now();
         main();
     }
@@ -100,7 +99,7 @@ var Engine = (function(global) {
             enemy.update(dt);
         });
         allTokens.forEach(function(token) {
-            token.addToScore();
+            token.update();
         })
     }
 
@@ -113,7 +112,14 @@ var Engine = (function(global) {
                 gameOver = true;
                 var gameOverMessage = document.getElementsByClassName('game_over');
                 gameOverMessage[0].innerHTML = '<h1>On No! Game Over!<h1>';
-                return true;
+                var playAgain = document.createElement('button');
+                playAgain.innerHTML = 'Play Again';
+                playAgain.onclick = function() {
+                    console.log("clicked");
+                    reset();
+                }
+                gameOverMessage[0].appendChild(playAgain);
+            return true;
             }
        }
        return false;
@@ -196,7 +202,13 @@ var Engine = (function(global) {
      * those sorts of things. It's only called once by the init() method.
      */
     function reset() {
-        // noop
+        console.log("clicked reset");
+        document.getElementsByClassName("game_over")[0].style.display = 'none';
+        gameOver = false;
+        allEnemies = [];
+        player.x = -2;
+        player.y = 401;
+        player.score = 0;
     }
 
     /* Go ahead and load all of the images we know we're going to need to
@@ -209,7 +221,9 @@ var Engine = (function(global) {
         'images/grass-block.png',
         'images/enemy-bug.png',
         'images/char-pink-girl.png',
-        'images/GemOrange.png'
+        'images/GemOrange.png',
+        'images/Heart.png',
+        'images/Key.png'
     ]);
     Resources.onReady(init);
 

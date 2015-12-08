@@ -6,3 +6,13 @@ body {
   float: left;
   font-size: 40px;
 }
+
+#level {
+  float: left;
+  font-size: 30px;
+}
+
+#lives {
+  float: left;
+  font-size: 30px;
+}
