@@ -202,13 +202,16 @@ var Engine = (function(global) {
      * those sorts of things. It's only called once by the init() method.
      */
     function reset() {
-        console.log("clicked reset");
-        document.getElementsByClassName("game_over")[0].style.display = 'none';
+        if (!gameOver) return;
+        document.getElementsByClassName("game_over")[0].innerHTML = '';
         gameOver = false;
-        allEnemies = [];
         player.x = -2;
         player.y = 401;
         player.score = 0;
+        document.getElementById('score').innerHTML = 'Score : ' + player.score;
+        player.level = 1;
+        document.getElementById('level').innerHTML = 'Level : ' + player.level;
+        init();
     }
 
     /* Go ahead and load all of the images we know we're going to need to

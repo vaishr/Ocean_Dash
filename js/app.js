@@ -29,7 +29,7 @@ var Player = function() {
     this.sprite = 'images/char-pink-girl.png';
     this.score = 0;
     this.level = 1;
-    this.lives = 0;
+    this.lives = 1;
 
     this.x = -2;
     this.y = 401;
@@ -71,7 +71,6 @@ var Token = function() {
     this.visible = true;
     this.x = columnX[Math.floor(Math.random()*columnX.length)];
     this.y = roadRows[Math.floor(Math.random()*roadRows.length)];
-    this.seconds = Math.random()*4000;
     this.sprite = 'images/GemOrange.png';
 }
 
@@ -110,7 +109,7 @@ var newHeart = function() {
         document.getElementById('lives').innerHTML = 'Lives : ' + player.lives;
     }
     heart.decreaseLives = function() {
-        player.lives < 1? player.lives = 0: player.lives--;
+        player.lives < 2? player.lives = 1: player.lives--;
         document.getElementById('lives').innerHTML = 'Lives : ' + player.lives;
     }
     allTokens.push(heart);
