@@ -85,8 +85,9 @@ Token.prototype.update = function() {
 
 Token.prototype.addToScore = function() {
     if (this.visible && this.x === player.x && this.y === player.y) {
-    player.score += this.value;
     this.visible = false;
+    player.score += this.value;
+    document.getElementById('score').innerHTML = 'Score : ' + player.score;
     }
 }
 
@@ -97,8 +98,7 @@ var allTokens = [gem1, gem2];
 
 
 
-// This listens for key presses and sends the keys to your
-// Player.handleInput() method. You don't need to modify this.
+// This listens for key presses 
 document.addEventListener('keyup', function(e) {
     var allowedKeys = {
         37: 'left',
