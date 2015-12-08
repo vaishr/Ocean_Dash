@@ -1,3 +1,7 @@
+var columnX = [-2,99,200,301,503,604,705];
+var roadRows = [73, 155, 237];
+
+
 // Enemies our player must avoid
 var Enemy = function() {
     // Variables applied to each of our instances go here,
@@ -10,9 +14,6 @@ var Enemy = function() {
     this.speed =  401;
     this.y = roadRows[Math.floor(Math.random()*roadRows.length)];
 };
-
-var roadRows = [73, 155, 237];
-
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
 
@@ -40,7 +41,7 @@ var Player = function() {
     this.sprite = 'images/char-pink-girl.png';
     this.score = 0;
 
-    this.x = 705;
+    this.x = -2;
     this.y = 401;
 }
 
@@ -48,11 +49,9 @@ Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
+
 Player.prototype.update = function() {
-    if (this.y < 0) {
-        console.log("congrats! you made it! game over!");
-    }
-    //console.log("playerx", this.x);
+ 
 };
 
 Player.prototype.handleInput = function(direction) {
@@ -89,6 +88,16 @@ setInterval(newEnemy, Math.random()*2000);
 // Place the player object in a variable called player
 
 var player = new Player();
+
+var Gem = function(value) {
+    this.value = value;
+    this.x = columnX[Math.floor(Math.random()*columnX.length)];
+    this.y = roadRows[Math.floor(Math.random()*roadRows.length)];
+    this.seconds = Math.random()*4000;
+    //this.sprite = 
+}
+
+
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.

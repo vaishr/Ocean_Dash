@@ -30,7 +30,7 @@ var Engine = (function(global) {
     canvas.height = 606;
     doc.body.appendChild(canvas);
 
-        var gameOver = false;
+    var gameOver = false;
 
     /* This function serves as the kickoff point for the game loop itself
      * and handles properly calling the update and render methods.
@@ -85,6 +85,7 @@ var Engine = (function(global) {
     function update(dt) {
         updateEntities(dt);
         checkCollisions();
+        checkWin();
     }
 
     /* This is called by the update function  and loops through all of the
@@ -102,21 +103,28 @@ var Engine = (function(global) {
     }
 
     function checkCollisions() {
-       for (var i = 0; i < allEnemies.length; i++) {
-        //console.log(allEnemies[i].x)
+      for (var i = 0; i < allEnemies.length; i++) {
         var padding = 20;
         var maxX = player.x + padding;
         var minX = player.x - padding;
             if ((allEnemies[i].x < maxX) && (allEnemies[i].x > minX) && (player.y == allEnemies[i].y)) {
                 var gameOverMessage = document.getElementsByClassName("game_over");
-                gameOverMessage[0].style.display = 'block';
-                var canvas = document.getElementsByTagName("canvas");
-                //canvas[0].style.display = "none";
+                gameOverMessage[0].innerHTML = '<h1>On No! Game Over!<h1>';
                 gameOver = true;
                 return true;
             }
        }
        return false;
+    }
+
+    function checkWin() {
+        if (player.y < 0) {
+            gameOver = true;
+            var gameOverMessage = document.getElementsByClassName('game_over');
+            gameOverMessage[0].innerHTML = '<h1>Congratulations! You won!<h1>';
+            return true;
+        }
+        return false;
     }
 
     /* This function initially draws the "game level", it will then call
@@ -195,7 +203,7 @@ var Engine = (function(global) {
         'images/grass-block.png',
         'images/enemy-bug.png',
         'images/char-pink-girl.png',
-        'images/Gem Orange.png'
+        'images/GemOrange.png'
     ]);
     Resources.onReady(init);
 
