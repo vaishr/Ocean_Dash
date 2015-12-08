@@ -1,3 +1,7 @@
 body {
     text-align: center;
 }
+
+.game_over {
+  display: none;
+}

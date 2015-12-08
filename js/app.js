@@ -7,7 +7,7 @@ var Enemy = function() {
     // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
     this.x = 0;
-    this.speed = Math.random()*800;
+    this.speed =  401;
     this.y = roadRows[Math.floor(Math.random()*roadRows.length)];
 };
 
@@ -15,6 +15,7 @@ var roadRows = [73, 155, 237];
 
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
+
 Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
@@ -39,7 +40,7 @@ var Player = function() {
     this.sprite = 'images/char-pink-girl.png';
     this.score = 0;
 
-    this.x = -2;
+    this.x = 705;
     this.y = 401;
 }
 
@@ -51,6 +52,7 @@ Player.prototype.update = function() {
     if (this.y < 0) {
         console.log("congrats! you made it! game over!");
     }
+    //console.log("playerx", this.x);
 };
 
 Player.prototype.handleInput = function(direction) {
@@ -62,7 +64,6 @@ Player.prototype.handleInput = function(direction) {
     }
     if (direction === 'right' && this.x < 700) {
         this.x = this.x + 101;
-        console.log("this.x", this.x);
     }
     if (direction === 'up' && this.y > 0) {
         this.y = this.y - 82;

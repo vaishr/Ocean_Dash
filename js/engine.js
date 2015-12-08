@@ -80,7 +80,7 @@ var Engine = (function(global) {
      */
     function update(dt) {
         updateEntities(dt);
-        // checkCollisions();
+        checkCollisions();
     }
 
     /* This is called by the update function  and loops through all of the
@@ -97,6 +97,23 @@ var Engine = (function(global) {
         player.update();
     }
 
+    function checkCollisions() {
+       for (var i = 0; i < allEnemies.length; i++) {
+        //console.log(allEnemies[i].x)
+        var padding = 20;
+        var maxX = player.x + padding;
+        var minX = player.x - padding;
+            if ((allEnemies[i].x < maxX) && (allEnemies[i].x > minX) && (player.y == allEnemies[i].y)) {
+                var gameOverMessage = document.getElementsByClassName("game_over");
+                gameOverMessage[0].style.display = 'block';
+                var canvas = document.getElementsByTagName("canvas");
+                canvas[0].style.display = "none";
+                return true;
+            }
+       }
+       return false;
+    }
+
     /* This function initially draws the "game level", it will then call
      * the renderEntities function. Remember, this function is called every
      * game tick (or loop of the game engine) because that's how games work -
@@ -107,6 +124,7 @@ var Engine = (function(global) {
         /* This array holds the relative URL to the image used
          * for that particular row of the game level.
          */
+        var toggleSquare = ['images/stone-block.png','images/Gem Green.png'];
         var rowImages = [
                 'images/water-block.png',   // Top row is water
                 'images/stone-block.png',   // Row 1 of 3 of stone
@@ -172,7 +190,8 @@ var Engine = (function(global) {
         'images/water-block.png',
         'images/grass-block.png',
         'images/enemy-bug.png',
-        'images/char-pink-girl.png'
+        'images/char-pink-girl.png',
+        'images/Gem Orange.png'
     ]);
     Resources.onReady(init);
 
