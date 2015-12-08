@@ -19,6 +19,7 @@ var Engine = (function(global) {
      * create the canvas element, grab the 2D context for that canvas
      * set the canvas elements height/width and add it to the DOM.
      */
+
     var doc = global.document,
         win = global.window,
         canvas = doc.createElement('canvas'),
@@ -29,10 +30,13 @@ var Engine = (function(global) {
     canvas.height = 606;
     doc.body.appendChild(canvas);
 
+        var gameOver = false;
+
     /* This function serves as the kickoff point for the game loop itself
      * and handles properly calling the update and render methods.
      */
     function main() {
+        if (gameOver) return;
         /* Get our time delta information which is required if your game
          * requires smooth animation. Because everyone's computer processes
          * instructions at different speeds we need a constant value that
@@ -107,7 +111,8 @@ var Engine = (function(global) {
                 var gameOverMessage = document.getElementsByClassName("game_over");
                 gameOverMessage[0].style.display = 'block';
                 var canvas = document.getElementsByTagName("canvas");
-                canvas[0].style.display = "none";
+                //canvas[0].style.display = "none";
+                gameOver = true;
                 return true;
             }
        }
@@ -124,7 +129,6 @@ var Engine = (function(global) {
         /* This array holds the relative URL to the image used
          * for that particular row of the game level.
          */
-        var toggleSquare = ['images/stone-block.png','images/Gem Green.png'];
         var rowImages = [
                 'images/water-block.png',   // Top row is water
                 'images/stone-block.png',   // Row 1 of 3 of stone
