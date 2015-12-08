@@ -4,11 +4,6 @@ var roadRows = [73, 155, 237];
 
 // Enemies our player must avoid
 var Enemy = function() {
-    // Variables applied to each of our instances go here,
-    // we've provided one for you to get started
-
-    // The image/sprite for our enemies, this uses
-    // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
     this.x = 0;
     this.speed =  401;
@@ -23,10 +18,6 @@ Enemy.prototype.update = function(dt) {
     // all computers.
     if (dt === 0) return;
     this.x = this.x + (dt * this.speed);
-    ////playerx[99,200,301,503,604,705]
-    // if (this.x - (dt * this.speed) === player.x && this.y === player.y) {
-    //     console.log("gameOver!");
-    // }
 };
 
 // Draw the enemy on the screen, required method for game
@@ -34,9 +25,6 @@ Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-// Now write your own player class
-// This class requires an update(), render() and
-// a handleInput() method.
 var Player = function() {
     this.sprite = 'images/char-pink-girl.png';
     this.score = 0;
@@ -47,11 +35,6 @@ var Player = function() {
 
 Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-};
-
-
-Player.prototype.update = function() {
- 
 };
 
 Player.prototype.handleInput = function(direction) {
@@ -69,10 +52,6 @@ Player.prototype.handleInput = function(direction) {
     }
 }
 
-
-// Now instantiate your objects.
-// Place all enemy objects in an array called allEnemies
-
 var allEnemies = [];
 
 function newEnemy() {
@@ -82,20 +61,39 @@ function newEnemy() {
 
 newEnemy();
 newEnemy();
-setInterval(newEnemy, Math.random()*2000);
-
-
-// Place the player object in a variable called player
+setInterval(newEnemy, 500);
 
 var player = new Player();
 
-var Gem = function(value) {
+var Token = function(value) {
     this.value = value;
+    this.visible = true;
     this.x = columnX[Math.floor(Math.random()*columnX.length)];
     this.y = roadRows[Math.floor(Math.random()*roadRows.length)];
     this.seconds = Math.random()*4000;
-    //this.sprite = 
+    this.sprite = 'images/GemOrange.png';
 }
+
+Token.prototype.render = function() {
+    if (!this.visible) return; 
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+}
+
+Token.prototype.update = function() {
+
+}
+
+Token.prototype.addToScore = function() {
+    if (this.visible && this.x === player.x && this.y === player.y) {
+    player.score += this.value;
+    this.visible = false;
+    }
+}
+
+var gem1 = new Token(10);
+var gem2 = new Token(10);
+
+var allTokens = [gem1, gem2];
 
 
 

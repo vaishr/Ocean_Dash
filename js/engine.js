@@ -99,7 +99,9 @@ var Engine = (function(global) {
         allEnemies.forEach(function(enemy) {
             enemy.update(dt);
         });
-        player.update();
+        allTokens.forEach(function(token) {
+            token.addToScore();
+        })
     }
 
     function checkCollisions() {
@@ -108,9 +110,9 @@ var Engine = (function(global) {
         var maxX = player.x + padding;
         var minX = player.x - padding;
             if ((allEnemies[i].x < maxX) && (allEnemies[i].x > minX) && (player.y == allEnemies[i].y)) {
-                var gameOverMessage = document.getElementsByClassName("game_over");
-                gameOverMessage[0].innerHTML = '<h1>On No! Game Over!<h1>';
                 gameOver = true;
+                var gameOverMessage = document.getElementsByClassName('game_over');
+                gameOverMessage[0].innerHTML = '<h1>On No! Game Over!<h1>';
                 return true;
             }
        }
@@ -180,6 +182,10 @@ var Engine = (function(global) {
          */
         allEnemies.forEach(function(enemy) {
             enemy.render();
+        });
+
+        allTokens.forEach(function(token) {
+            token.render();
         });
 
         player.render();
