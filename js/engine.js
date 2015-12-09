@@ -32,6 +32,8 @@ var Engine = (function(global) {
 
     var gameOver = false;
 
+    var gameOverMessage = document.body.getElementsByClassName('game_over');
+
     /* This function serves as the kickoff point for the game loop itself
      * and handles properly calling the update and render methods.
      */
@@ -109,16 +111,25 @@ var Engine = (function(global) {
         var maxX = player.x + padding;
         var minX = player.x - padding;
             if ((allEnemies[i].x < maxX) && (allEnemies[i].x > minX) && (player.y == allEnemies[i].y)) {
-                gameOver = true;
-                var gameOverMessage = document.getElementsByClassName('game_over');
-                gameOverMessage[0].innerHTML = '<h1>On No! Game Over!<h1>';
-                var playAgain = document.createElement('button');
-                playAgain.innerHTML = 'Play Again';
-                playAgain.onclick = function() {
-                    console.log("clicked");
+                reset();
+                if (player.lives === 0) {
+                    gameOver = true;
+                    gameOverMessage[0].innerHTML = '<h1>GAME OVER!!!<h1>';
+                    var playAgain = document.createElement('button');
+                    playAgain.innerHTML = 'Play Again'; 
+                    gameOverMessage[0].appendChild(playAgain); 
+                }
+                else if (player.lives > 0) {
+                    player.lives--;
+                    player.lives > 0 ? gameOverMessage[0].innerHTML = 'You have ' + player.lives +  ' extra life' : gameOverMessage[0].innerHTML = 'This is your last life!  Be careful';
                     reset();
                 }
-                gameOverMessage[0].appendChild(playAgain);
+                playAgain.onclick = function() {
+                    reset();
+                    player.score = 0;
+                    player.lives = 0;
+                    gameOverMessage[0].innerHTML = '';
+                }
             return true;
             }
        }
@@ -127,9 +138,21 @@ var Engine = (function(global) {
 
     function checkWin() {
         if (player.y < 0) {
+            console.log
             gameOver = true;
-            var gameOverMessage = document.getElementsByClassName('game_over');
-            gameOverMessage[0].innerHTML = '<h1>Congratulations! You won!<h1>';
+            if (player.level < 4 ) {
+                player.level++;
+                document.getElementById('level').innerHTML = 'Level : ' + player.level;
+                gameOverMessage[0].innerHTML ='<h1>On to Level ' + player.level + '<h1>';
+            }
+            else { 
+                gameOver = true;
+                gameOverMessage[0].innerHTML ='<h1>YOU WON ALL 3 LEVELS! YAY!!<h1>';
+                var playAgain = document.createElement('button');
+                playAgain.innerHTML = 'Play Again';   
+                gameOverMessage[0].appendChild(playAgain);
+            }
+            reset();
             return true;
         }
         return false;
@@ -203,14 +226,9 @@ var Engine = (function(global) {
      */
     function reset() {
         if (!gameOver) return;
-        document.getElementsByClassName("game_over")[0].innerHTML = '';
         gameOver = false;
         player.x = -2;
         player.y = 401;
-        player.score = 0;
-        document.getElementById('score').innerHTML = 'Score : ' + player.score;
-        player.level = 1;
-        document.getElementById('level').innerHTML = 'Level : ' + player.level;
         init();
     }
 
@@ -226,7 +244,8 @@ var Engine = (function(global) {
         'images/char-pink-girl.png',
         'images/GemOrange.png',
         'images/Heart.png',
-        'images/Key.png'
+        'images/Key.png',
+        'images/Rock.png'
     ]);
     Resources.onReady(init);
 

@@ -6,9 +6,10 @@ var roadRows = [73, 155, 237];
 var Enemy = function() {
     this.sprite = 'images/enemy-bug.png';
     this.x = 0;
-    this.speed =  401;
+    this.speed = 301;
     this.y = roadRows[Math.floor(Math.random()*roadRows.length)];
 };
+
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
 
@@ -18,8 +19,21 @@ Enemy.prototype.update = function(dt) {
     // all computers.
     if (dt === 0) return;
     this.x = this.x + (dt * this.speed);
+    this.speed = this.setSpeed();
 };
 
+Enemy.prototype.setSpeed = function() {
+    switch(player.level) {
+        case 3:
+            return 501;
+            break;
+        case 2:
+            return 301;
+            break;
+        default:
+            return 180;
+    }
+}
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
@@ -29,8 +43,7 @@ var Player = function() {
     this.sprite = 'images/char-pink-girl.png';
     this.score = 0;
     this.level = 1;
-    this.lives = 1;
-
+    this.lives = 0;
     this.x = -2;
     this.y = 401;
 }
@@ -108,10 +121,6 @@ var newHeart = function() {
         player.lives++;
         document.getElementById('lives').innerHTML = 'Lives : ' + player.lives;
     }
-    heart.decreaseLives = function() {
-        player.lives < 2? player.lives = 1: player.lives--;
-        document.getElementById('lives').innerHTML = 'Lives : ' + player.lives;
-    }
     allTokens.push(heart);
 }
 
@@ -119,8 +128,8 @@ var newKey = function() {
     var key = new Token();
     key.sprite = 'images/Key.png';
     key.advanceLevel = function() {
-        player.level++;
-        document.getElementById('level').innerHTML = 'Level : ' + player.level;
+        // player.level++;
+        // document.getElementById('level').innerHTML = 'Level : ' + player.level;
     }
     allTokens.push(key);
 }
