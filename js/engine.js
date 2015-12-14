@@ -38,7 +38,7 @@ var Engine = (function(global) {
      * and handles properly calling the update and render methods.
      */
     function main() {
-      if (gameOver) return;
+
         /* Get our time delta information which is required if your game
          * requires smooth animation. Because everyone's computer processes
          * instructions at different speeds we need a constant value that
@@ -51,9 +51,12 @@ var Engine = (function(global) {
         /* Call our update/render functions, pass along the time delta to
          * our update function since it may be used for smooth animation.
          */
+        if (!gameOver) {
         update(dt);
         render();
-
+    
+        }
+        
         /* Set our lastTime variable which is used to determine the time delta
          * for the next time this function is called.
          */
@@ -107,32 +110,45 @@ var Engine = (function(global) {
 
     function checkCollisions() {
       for (var i = 0; i < allEnemies.length; i++) {
+        if (allEnemies[i].hit == true) continue;
         var padding = 20;
         var maxX = player.x + padding;
         var minX = player.x - padding;
             if ((allEnemies[i].x < maxX) && (allEnemies[i].x > minX) && (player.y == allEnemies[i].y)) {
                 reset();
-                if (player.lives === 0) {
+                allEnemies[i].hit = true;
+                console.log("collision detected", player.lives)
+                if (player.lives == 0 ) {
                     gameOver = true;
                     gameOverMessage[0].innerHTML = '<h1>GAME OVER!!!<h1>';
                     var playAgain = document.createElement('button');
                     playAgain.innerHTML = 'Play Again'; 
                     gameOverMessage[0].appendChild(playAgain); 
+                    playAgain.onclick = function() {
+                        reset();
+                        gameOver = false;
+                        player.score = 0;
+                        player.level = 1;
+                        player.lives = 0;
+                        console.log('reset, player.lives', player.lives);
+                        document.getElementById('score').innerHTML = 'Score : ' + player.score;
+                        document.getElementById('level').innerHTML = 'Level : ' + player.level;
+                        document.getElementById('lives').innerHTML = 'Lives : ' + player.lives;
+                        gameOverMessage[0].innerHTML = '';
+                    }
                 }
-                else if (player.lives > 0) {
+                if (player.lives >= 0) {
+                    console.log(player.lives)
                     player.lives--;
-                    player.lives > 0 ? gameOverMessage[0].innerHTML = 'You have ' + player.lives +  ' extra life' : gameOverMessage[0].innerHTML = 'This is your last life!  Be careful';
                     reset();
+                    document.getElementById('lives').innerHTML = 'Lives : ' + player.lives;
+                    console.log("game should not bd over")
                 }
-                playAgain.onclick = function() {
-                    reset();
-                    player.score = 0;
-                    player.lives = 0;
-                    gameOverMessage[0].innerHTML = '';
-                }
+                
+    
             return true;
             }
-       }
+       }    
        return false;
     }
 
@@ -149,7 +165,7 @@ var Engine = (function(global) {
                 gameOver = true;
                 gameOverMessage[0].innerHTML ='<h1>YOU WON ALL 3 LEVELS! YAY!!<h1>';
                 var playAgain = document.createElement('button');
-                playAgain.innerHTML = 'Play Again';   
+                playAgain.innerHTML = 'Start New Game';   
                 gameOverMessage[0].appendChild(playAgain);
             }
             reset();
@@ -225,8 +241,8 @@ var Engine = (function(global) {
      * those sorts of things. It's only called once by the init() method.
      */
     function reset() {
-        if (!gameOver) return;
-        gameOver = false;
+        // if (!gameOver) return;
+        // gameOver = false;
         player.x = -2;
         player.y = 401;
         init();

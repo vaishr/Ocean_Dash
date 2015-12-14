@@ -6,7 +6,7 @@ var roadRows = [73, 155, 237];
 var Enemy = function() {
     this.sprite = 'images/enemy-bug.png';
     this.x = 0;
-    this.speed = 301;
+    this.speed = 180;
     this.y = roadRows[Math.floor(Math.random()*roadRows.length)];
 };
 
@@ -33,6 +33,20 @@ Enemy.prototype.setSpeed = function() {
         default:
             return 180;
     }
+}
+
+var setFreq = function() {
+    switch(player.level) {
+        case 3:
+            return 500;
+            break;
+        case 2:
+            return 700;
+            break;
+        default:
+            return 1000;
+    }
+    console.log("player level", player.level);
 }
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
@@ -67,6 +81,8 @@ Player.prototype.handleInput = function(direction) {
     }
 }
 
+var player = new Player();
+
 var allEnemies = [];
 
 function newEnemy() {
@@ -76,9 +92,8 @@ function newEnemy() {
 
 newEnemy();
 newEnemy();
-setInterval(newEnemy, 500);
-
-var player = new Player();
+var levelFreq = setFreq();
+setInterval(newEnemy, levelFreq);
 
 var Token = function() {
     this.visible = true;
