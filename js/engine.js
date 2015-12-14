@@ -32,11 +32,13 @@ var Engine = (function(global) {
 
     var gameOver = false;
 
+
     var gameOverMessage = document.body.getElementsByClassName('game_over');
 
     /* This function serves as the kickoff point for the game loop itself
      * and handles properly calling the update and render methods.
      */
+
     function main() {
 
         /* Get our time delta information which is required if your game
@@ -74,6 +76,7 @@ var Engine = (function(global) {
      */
     function init() {
         lastTime = Date.now();
+        newGame();
         main();
     }
 
@@ -108,6 +111,24 @@ var Engine = (function(global) {
         })
     }
 
+    function playAgain() {
+        var playAgainBtn = document.createElement('button');
+                    playAgainBtn.innerHTML = 'Play Again'; 
+                    gameOverMessage[0].appendChild(playAgainBtn); 
+                    playAgainBtn.onclick = function() {
+                        gameOver = false;
+                        player.score = 0;
+                        player.level = 1;
+                        player.lives = 0;
+                        newGame();
+                        console.log('reset, player.lives', player.lives);
+                        document.getElementById('score').innerHTML = 'Score : ' + player.score;
+                        document.getElementById('level').innerHTML = 'Level : ' + player.level;
+                        document.getElementById('lives').innerHTML = 'Lives : ' + player.lives;
+                        gameOverMessage[0].innerHTML = '';
+                    }
+    }
+
     function checkCollisions() {
       for (var i = 0; i < allEnemies.length; i++) {
         if (allEnemies[i].hit == true) continue;
@@ -121,52 +142,32 @@ var Engine = (function(global) {
                 if (player.lives == 0 ) {
                     gameOver = true;
                     gameOverMessage[0].innerHTML = '<h1>GAME OVER!!!<h1>';
-                    var playAgain = document.createElement('button');
-                    playAgain.innerHTML = 'Play Again'; 
-                    gameOverMessage[0].appendChild(playAgain); 
-                    playAgain.onclick = function() {
-                        reset();
-                        gameOver = false;
-                        player.score = 0;
-                        player.level = 1;
-                        player.lives = 0;
-                        console.log('reset, player.lives', player.lives);
-                        document.getElementById('score').innerHTML = 'Score : ' + player.score;
-                        document.getElementById('level').innerHTML = 'Level : ' + player.level;
-                        document.getElementById('lives').innerHTML = 'Lives : ' + player.lives;
-                        gameOverMessage[0].innerHTML = '';
+                    playAgain();
                     }
-                }
                 if (player.lives >= 0) {
                     console.log(player.lives)
                     player.lives--;
-                    reset();
+                    if (player.lives < 0) { player.lives = 'over' };
                     document.getElementById('lives').innerHTML = 'Lives : ' + player.lives;
-                    console.log("game should not bd over")
                 }
-                
-    
-            return true;
+                return true;
             }
-       }    
-       return false;
-    }
+        }
+        return false;
+    }    
 
     function checkWin() {
         if (player.y < 0) {
-            console.log
-            gameOver = true;
-            if (player.level < 4 ) {
+            if (player.level < 3 ) {
                 player.level++;
+                reset();
                 document.getElementById('level').innerHTML = 'Level : ' + player.level;
                 gameOverMessage[0].innerHTML ='<h1>On to Level ' + player.level + '<h1>';
             }
             else { 
                 gameOver = true;
                 gameOverMessage[0].innerHTML ='<h1>YOU WON ALL 3 LEVELS! YAY!!<h1>';
-                var playAgain = document.createElement('button');
-                playAgain.innerHTML = 'Start New Game';   
-                gameOverMessage[0].appendChild(playAgain);
+                playAgain();
             }
             reset();
             return true;
@@ -241,11 +242,27 @@ var Engine = (function(global) {
      * those sorts of things. It's only called once by the init() method.
      */
     function reset() {
-        // if (!gameOver) return;
-        // gameOver = false;
+        console.log('reset');
         player.x = -2;
         player.y = 401;
-        init();
+        if (timeoutID) {clearInterval(timeoutID);};
+        timeoutID = setInterval(newEnemy, setFreq());
+    
+    }
+
+    function newGame() {
+        console.log('newGame');
+        allEnemies = [];
+        allTokens = [];
+        reset();
+        newEnemy();
+        newEnemy();
+        newGem();
+        newGem();
+        newGem();
+        newBlueGem();
+        newHeart();
+        newKey();
     }
 
     /* Go ahead and load all of the images we know we're going to need to
@@ -261,7 +278,8 @@ var Engine = (function(global) {
         'images/GemOrange.png',
         'images/Heart.png',
         'images/Key.png',
-        'images/Rock.png'
+        'images/Rock.png',
+        'images/GemBlue.png'
     ]);
     Resources.onReady(init);
 

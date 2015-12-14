@@ -25,7 +25,7 @@ Enemy.prototype.update = function(dt) {
 Enemy.prototype.setSpeed = function() {
     switch(player.level) {
         case 3:
-            return 501;
+            return 401;
             break;
         case 2:
             return 301;
@@ -36,17 +36,17 @@ Enemy.prototype.setSpeed = function() {
 }
 
 var setFreq = function() {
+    console.log("player level", player.level);
     switch(player.level) {
         case 3:
-            return 500;
+            return 200;
             break;
         case 2:
-            return 700;
+            return 500;
             break;
         default:
-            return 1000;
+            return 800;
     }
-    console.log("player level", player.level);
 }
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
@@ -85,17 +85,14 @@ var player = new Player();
 
 var allEnemies = [];
 
+var allTokens = [];
+
 function newEnemy() {
     var enemy = new Enemy();
     allEnemies.push(enemy);
 };
 
-newEnemy();
-newEnemy();
-var levelFreq = setFreq();
-setInterval(newEnemy, levelFreq);
-
-var Token = function() {
+var Token = function() {    
     this.visible = true;
     this.x = columnX[Math.floor(Math.random()*columnX.length)];
     this.y = roadRows[Math.floor(Math.random()*roadRows.length)];
@@ -112,12 +109,10 @@ Token.prototype.update = function() {
         this.visible = false;
         if (this.addScore) { this.addScore() };
         if (this.increaseLives) { this.increaseLives() };
-        if (this.advanceLevel) { this.advanceLevel() };
+        if (this.advanceLevel) { this.advanceLevel(); };
         return true;
     }
 }
-
-var allTokens = [];
 
 var newGem = function() {
     var gem = new Token();
@@ -127,6 +122,17 @@ var newGem = function() {
         document.getElementById('score').innerHTML = 'Score : ' + player.score;
     }
     allTokens.push(gem);
+}
+
+var newBlueGem = function () {
+    var blueGem = new Token();
+    blueGem.value = 50;
+    blueGem.addScore = function() {
+        player.score += blueGem.value;
+        document.getElementById('score').innerHTML = 'Score : ' + player.score;
+    }
+    blueGem.sprite = 'images/GemBlue.png';
+    allTokens.push(blueGem);
 }
 
 var newHeart = function() {
@@ -143,20 +149,20 @@ var newKey = function() {
     var key = new Token();
     key.sprite = 'images/Key.png';
     key.advanceLevel = function() {
-        // player.level++;
-        // document.getElementById('level').innerHTML = 'Level : ' + player.level;
+        player.level++;
+        player.x = -2;
+        player.y = 401;
+        document.getElementById('level').innerHTML = 'Level : ' + player.level;
+        var level = setFreq();
+        console.log('levelFreq++',level);
     }
     allTokens.push(key);
 }
 
+var timeoutID;
+
 newGem();
 newGem();
-newGem();
-
-newHeart();
-newKey();
-
-
 
 // This listens for key presses 
 document.addEventListener('keyup', function(e) {
