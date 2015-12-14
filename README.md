@@ -1,4 +1,6 @@
-classic arcade game clone
+Ocean Dash
 ===============================
 
-A version of the game [Frogger](https://en.wikipedia.org/wiki/Frogger).  Project for Udacity's Object Oriented Javascript course.
+Help your player reach the ocean and get through all 3 levels without getting run over by giant bugs! Collect the heart for an extra life and the key to skip a level. Good luck!
+
+http://vaishr.github.io/Ocean_Dash
