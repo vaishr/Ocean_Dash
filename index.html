@@ -2,14 +2,38 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Frogger</title>
+    <title>OceanDash!</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <div class = "game_over"></div>
-    <div id = "score">Score: 0</div>
-    <div id = "level"> Level: 1</div>
-    <div id = "lives"> Lives: 0</div>
+    <h1>OceanDash</h1>
+    <div class = 'game_info'>
+      <div id = 'instructions'><i>Help your player reach the ocean and get through all 3 levels without getting run over by giant bugs! Collect the heart for an extra life and the key to skip a level.  Good luck!</i></div>
+      <div class = 'legend'>
+        <figure>
+          <img src = 'images/Heart.png'>
+          <figurecaption>extra life</figurecaption>
+        </figure>
+        <figure>
+          <img src= 'images/Key.png'>
+          <figurecaption>skip a level</figurecaption>
+         </figure>
+         <figure>
+          <img src = 'images/GemBlue.png'>
+          <figurecaption>50pts</figurecaption>
+          </figure>
+        <figure>
+          <img src = 'images/GemOrange.png'>
+          <figurecaption>10pts</figurecaption>
+        </figure>
+      </div>
+      <div class = "game_over"></div>
+      <div id = "level">You are on Level 1</div>
+      <div id = 'stats'>
+        <div id = "score">Score: 0</div>
+        <div id = "lives"> Lives: 0</div>
+      </div>
+    </div>
     <script src="js/resources.js"></script>
     <script src="js/app.js"></script>
     <script src="js/engine.js"></script>

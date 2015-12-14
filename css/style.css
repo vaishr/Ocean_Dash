@@ -2,17 +2,66 @@ body {
     text-align: center;
 }
 
-#score {
-  float: left;
-  font-size: 40px;
+h1 {
+  margin-bottom: 0;
+}
+
+img {
+  height: 50px;
+  width: auto;
+}
+
+figure {
+  display: inline;
+  margin: 0 1% 0 0;
+}
+
+#instructions {
+  padding-top: 5%;
 }
 
 #level {
-  float: left;
+  padding-top: 5%;
+  font-size: 35px;
+  font-style: bold;
+}
+
+
+#stats {
   font-size: 30px;
+  padding-top: 7%;
+}
+
+#score {
+  display: inline;
+  text-decoration: underline;
+  padding-left: 3%;
+  float: left;
 }
 
 #lives {
+  display: inline;
+  float: right;
+  padding-right: 3%;
+  text-decoration: underline;
+}
+
+.game_over {
+  background-color: #FF393A;
+}
+
+.game_info {
+  background-color: blue;
   float: left;
-  font-size: 30px;
+  margin-left: 4%;
+  padding-left: 1%;
+  padding-right: 2%;
+  margin-top: 4%;
+  width: 400px;
+  height: 528px;  
+}
+
+canvas {
+  float: right;
+  padding-right: 50px;
 }

@@ -152,17 +152,12 @@ var newKey = function() {
         player.level++;
         player.x = -2;
         player.y = 401;
-        document.getElementById('level').innerHTML = 'Level : ' + player.level;
+        document.getElementById('level').innerHTML = 'You are on Level ' + player.level;
         var level = setFreq();
         console.log('levelFreq++',level);
     }
     allTokens.push(key);
 }
-
-var timeoutID;
-
-newGem();
-newGem();
 
 // This listens for key presses 
 document.addEventListener('keyup', function(e) {

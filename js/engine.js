@@ -31,8 +31,9 @@ var Engine = (function(global) {
     doc.body.appendChild(canvas);
 
     var gameOver = false;
-
-
+    
+    var timeoutID;
+    
     var gameOverMessage = document.body.getElementsByClassName('game_over');
 
     /* This function serves as the kickoff point for the game loop itself
@@ -123,7 +124,7 @@ var Engine = (function(global) {
                         newGame();
                         console.log('reset, player.lives', player.lives);
                         document.getElementById('score').innerHTML = 'Score : ' + player.score;
-                        document.getElementById('level').innerHTML = 'Level : ' + player.level;
+                        document.getElementById('level').innerHTML = 'You are on Level ' + player.level;
                         document.getElementById('lives').innerHTML = 'Lives : ' + player.lives;
                         gameOverMessage[0].innerHTML = '';
                     }
@@ -144,11 +145,12 @@ var Engine = (function(global) {
                     gameOverMessage[0].innerHTML = '<h1>GAME OVER!!!<h1>';
                     playAgain();
                     }
-                if (player.lives >= 0) {
+                if (player.lives > 0) {
                     console.log(player.lives)
                     player.lives--;
                     if (player.lives < 0) { player.lives = 'over' };
                     document.getElementById('lives').innerHTML = 'Lives : ' + player.lives;
+                    gameOverMessage[0].innerHTML = '<h1>You are now on your last life!<h1>';
                 }
                 return true;
             }
@@ -161,8 +163,7 @@ var Engine = (function(global) {
             if (player.level < 3 ) {
                 player.level++;
                 reset();
-                document.getElementById('level').innerHTML = 'Level : ' + player.level;
-                gameOverMessage[0].innerHTML ='<h1>On to Level ' + player.level + '<h1>';
+                document.getElementById('level').innerHTML = 'You are on Level ' + player.level;
             }
             else { 
                 gameOver = true;
