@@ -72,6 +72,7 @@ button {
 
 .game_over {
   background-color: #F66662;
+  margin-left: 12px;
 }
 
 .game_over h1 {
