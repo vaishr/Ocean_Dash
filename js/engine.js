@@ -170,7 +170,7 @@ var Engine = (function(global) {
             }
             else { 
                 gameOver = true;
-                gameOverMessage[0].innerHTML ='<h1>YOU WON!! YAY!<h1>';
+                gameOverMessage[0].innerHTML ='<h1>YOU WON!! YAY<h1>';
                 playAgain();
             }
             reset();

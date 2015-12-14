@@ -39,7 +39,7 @@ var setFreq = function() {
     console.log("player level", player.level);
     switch(player.level) {
         case 3:
-            return 240;
+            return 250;
             break;
         case 2:
             return 500;
