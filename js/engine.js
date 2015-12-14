@@ -115,7 +115,10 @@ var Engine = (function(global) {
     function playAgain() {
         var playAgainBtn = document.createElement('button');
                     playAgainBtn.innerHTML = 'Play Again'; 
-                    gameOverMessage[0].appendChild(playAgainBtn); 
+                    gameOverMessage[0].appendChild(playAgainBtn);
+                    var div = document.createElement('div');
+                    div.className = 'space';
+                    gameOverMessage[0].appendChild(div); 
                     playAgainBtn.onclick = function() {
                         gameOver = false;
                         player.score = 0;
@@ -150,7 +153,7 @@ var Engine = (function(global) {
                     player.lives--;
                     if (player.lives < 0) { player.lives = 'over' };
                     document.getElementById('lives').innerHTML = 'Lives : ' + player.lives;
-                    gameOverMessage[0].innerHTML = '<h1>You are now on your last life!<h1>';
+                    gameOverMessage[0].innerHTML = '<h1>You are using your last life!<h1>';
                 }
                 return true;
             }

@@ -1,9 +1,17 @@
 body {
     text-align: center;
+    background-color: #333332;
 }
 
 h1 {
   margin-bottom: 0;
+  font-family: 'Audiowide', cursive;
+}
+
+.title {
+  color: #F0F1EE;
+  text-shadow: 3px 3px #F66662;
+  font-size: 70px;
 }
 
 img {
@@ -21,11 +29,17 @@ figure {
 }
 
 #level {
-  padding-top: 5%;
-  font-size: 35px;
+  padding-top: 3%;
+  font-size: 50px;
   font-style: bold;
+  font-family: 'Audiowide', cursive;
 }
 
+button {
+  height: 35px;
+  width: 120px;
+  font-size: 15px;
+}
 
 #stats {
   font-size: 30px;
@@ -47,11 +61,16 @@ figure {
 }
 
 .game_over {
-  background-color: #FF393A;
+  background-color: #F66662;
+}
+
+.game_over h1 {
+  font-family: 'Audiowide', cursive;
+  font-size: 50px;
 }
 
 .game_info {
-  background-color: blue;
+  background-color: #FFD646;
   float: left;
   margin-left: 4%;
   padding-left: 1%;
@@ -59,6 +78,10 @@ figure {
   margin-top: 4%;
   width: 400px;
   height: 528px;  
+}
+
+.space {
+  height: 10px;
 }
 
 canvas {
