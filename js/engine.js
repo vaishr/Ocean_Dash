@@ -1,7 +1,7 @@
 /* Engine.js
  * This file provides the game loop functionality (update entities and render),
  * draws the initial game board on the screen, and then calls the update and
- * render methods on your player and enemy objects (defined in your app.js).
+ * render methods on your player and enemy objects (defined in app.js).
  *
  * A game engine works by drawing the entire game screen over and over, kind of
  * like a flipbook you may have created as a kid. When your player moves across
@@ -10,8 +10,7 @@
  * is being drawn over and over, presenting the illusion of animation.
  *
  * This engine is available globally via the Engine variable and it also makes
- * the canvas' context (ctx) object globally available to make writing app.js
- * a little simpler to work with.
+ * the canvas' context (ctx) object globally available
  */
 
 var Engine = (function(global) {
@@ -30,8 +29,10 @@ var Engine = (function(global) {
     canvas.height = 606;
     doc.body.appendChild(canvas);
 
+    //Game looks as if it's 'frozen' when this is set to true since all entitites will stop being re-rendered in main function
     var gameOver = false;
     
+    //For clearing interval between levels and new games and used in reset function
     var timeoutID;
     
     var gameOverMessage = document.body.getElementsByClassName('game_over');
@@ -64,7 +65,7 @@ var Engine = (function(global) {
          * for the next time this function is called.
          */
         lastTime = now;
-
+        console.log('main is running');
         /* Use the browser's requestAnimationFrame function to call this
          * function again as soon as the browser is able to draw another frame.
          */
@@ -98,10 +99,7 @@ var Engine = (function(global) {
 
     /* This is called by the update function  and loops through all of the
      * objects within your allEnemies array as defined in app.js and calls
-     * their update() methods. It will then call the update function for your
-     * player object. These update methods should focus purely on updating
-     * the data/properties related to  the object. Do your drawing in your
-     * render methods.
+     * their update() methods.
      */
     function updateEntities(dt) {
         allEnemies.forEach(function(enemy) {
@@ -112,6 +110,7 @@ var Engine = (function(global) {
         })
     }
 
+    //creates button to play again, which when clicked resets game settings and calls newGame to create new enemies and tokens
     function playAgain() {
         var playAgainBtn = document.createElement('button');
                     playAgainBtn.innerHTML = 'Play Again'; 
@@ -125,7 +124,6 @@ var Engine = (function(global) {
                         player.level = 1;
                         player.lives = 0;
                         newGame();
-                        console.log('reset, player.lives', player.lives);
                         document.getElementById('score').innerHTML = 'Score : ' + player.score;
                         document.getElementById('level').innerHTML = 'You are on Level ' + player.level;
                         document.getElementById('lives').innerHTML = 'Lives : ' + player.lives;
@@ -133,6 +131,7 @@ var Engine = (function(global) {
                     }
     }
 
+    //Checks all the enemies to see if any of them are in the same position as the player (a collision).  If so, then based on the number of extra lives the player has the game will either be reset and display playAgain button (which happens if the player has no extra lives), or if the player has at least 1 extra life the game will continue at the same level with the player position reset and the lives count reduced 
     function checkCollisions() {
       for (var i = 0; i < allEnemies.length; i++) {
         if (allEnemies[i].hit == true) continue;
@@ -146,9 +145,8 @@ var Engine = (function(global) {
                     gameOver = true;
                     gameOverMessage[0].innerHTML = '<h1>GAME OVER!!!<h1>';
                     playAgain();
-                    }
+                }
                 if (player.lives > 0) {
-                    console.log(player.lives)
                     player.lives--;
                     if (player.lives < 0) { player.lives = 'over' };
                     document.getElementById('lives').innerHTML = 'Lives : ' + player.lives;
@@ -160,6 +158,7 @@ var Engine = (function(global) {
         return false;
     }    
 
+    //Checks the player position to see if it is in the water.  then determines based on the game level if the player advances to the next level or wins the whole game
     function checkWin() {
         if (player.y < 0) {
             if (player.level < 3 ) {
@@ -240,12 +239,9 @@ var Engine = (function(global) {
         player.render();
     }
 
-    /* This function does nothing but it could have been a good place to
-     * handle game reset states - maybe a new game menu or a game over screen
-     * those sorts of things. It's only called once by the init() method.
+    /* This function resets the player position and clears the interval whenever it's called
      */
     function reset() {
-        console.log('reset');
         player.x = -2;
         player.y = 401;
         if (timeoutID) {clearInterval(timeoutID);};
@@ -253,6 +249,7 @@ var Engine = (function(global) {
     
     }
 
+    //This populates the game with new enemies and tokens and calls reset to set initial player position
     function newGame() {
         allEnemies = [];
         allTokens = [];
@@ -267,7 +264,7 @@ var Engine = (function(global) {
         newKey();
     }
 
-    /* Go ahead and load all of the images we know we're going to need to
+    /* Load all of the images we know we're going to need to
      * draw our game level. Then set init as the callback method, so that when
      * all of these images are properly loaded our game will start.
      */
