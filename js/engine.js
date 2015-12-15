@@ -142,7 +142,6 @@ var Engine = (function(global) {
             if ((allEnemies[i].x < maxX) && (allEnemies[i].x > minX) && (player.y == allEnemies[i].y)) {
                 reset();
                 allEnemies[i].hit = true;
-                console.log("collision detected", player.lives)
                 if (player.lives == 0 ) {
                     gameOver = true;
                     gameOverMessage[0].innerHTML = '<h1>GAME OVER!!!<h1>';

@@ -59,7 +59,7 @@ var Player = function() {
     this.lives = 0;
     this.x = -2;
     this.y = 401;
-}
+};
 
 Player.prototype = Object.create(Character.prototype);
 
@@ -78,7 +78,7 @@ Player.prototype.handleInput = function(direction) {
     if (direction === 'up' && this.y > 0) {
         this.y = this.y - 82;
     }
-}
+};
 
 Player.prototype.addScore = function(gemValue) {
     this.score += gemValue;
@@ -157,7 +157,7 @@ Token.prototype.update = function() {
 
 Token.prototype.collectPoints = function() {
     player.addScore(this.value);
-}
+};
 
 //functions which create instances of new tokens and store them in allTokens array
 function newGem() {
