@@ -29,7 +29,6 @@ Enemy.prototype.constructor = Enemy;
 
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
-
 Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
@@ -40,7 +39,7 @@ Enemy.prototype.update = function(dt) {
 };
 
 Enemy.prototype.setSpeed = function() {
-    switch(player.level) {
+    switch(player.getLevel()) {
         case 3:
             return 401;
             break;
@@ -49,19 +48,6 @@ Enemy.prototype.setSpeed = function() {
             break;
         default:
             return 180;
-    }
-};
-
-var setFreq = function() {
-    switch(player.level) {
-        case 3:
-            return 250;
-            break;
-        case 2:
-            return 500;
-            break;
-        default:
-            return 800;
     }
 };
 
@@ -94,19 +80,60 @@ Player.prototype.handleInput = function(direction) {
     }
 }
 
+Player.prototype.addScore = function(gemValue) {
+    this.score += gemValue;
+    document.getElementById('score').innerHTML = 'Score : ' + this.score;
+};
+
+Player.prototype.addLife = function() {
+    this.lives++;
+    document.getElementById('lives').innerHTML = 'Lives : ' + this.lives;
+};
+
+Player.prototype.nextLevel = function() {
+    if (this.level === 3) return;  
+    this.level++;   
+    this.x = -2;
+    this.y = 401;
+    document.getElementById('level').innerHTML = 'You are on Level ' + this.level;
+};
+
+//getter function to get player level 
+Player.prototype.getLevel = function() {
+    return this.level;
+};
+
+//set enemy frequency based on player level
+Player.prototype.setFreq = function() {
+    switch(this.level) {
+        case 3:
+            return 250;
+            break;
+        case 2:
+            return 500;
+            break;
+        default:
+            return 800;
+    }
+};
+
+//insantiate new player
 var player = new Player();
 
+//storage for created enemies and tokens
 var allEnemies = [];
-
 var allTokens = [];
 
+//function to instantiate new enemy and add it to allEnemies array
 function newEnemy() {
     var enemy = new Enemy();
     allEnemies.push(enemy);
-};
+}
 
-var Token = function() { 
-    Character.call(this);   
+//token class
+var Token = function(value) { 
+    Character.call(this); 
+    this.value = value;  
     this.visible = true;
     this.x = columnX[Math.floor(Math.random()*columnX.length)];
     this.y = roadRows[Math.floor(Math.random()*roadRows.length)];
@@ -121,57 +148,46 @@ Token.prototype.render = function() {
 Token.prototype.update = function() {
     if (this.visible && this.x === player.x && this.y === player.y) {
         this.visible = false;
-        if (this.addScore) { this.addScore() };
+        if (this.value > 0) { this.collectPoints() };
         if (this.increaseLives) { this.increaseLives() };
-        if (this.advanceLevel) { this.advanceLevel(); };
+        if (this.advanceLevel) { this.advanceLevel() };
         return true;
     }
 };
 
-var newGem = function() {
-    var gem = new Token();
-    gem.value = 10;
-    gem.addScore = function() {
-        player.score += gem.value;
-        document.getElementById('score').innerHTML = 'Score : ' + player.score;
-    }
-    allTokens.push(gem);
-};
+Token.prototype.collectPoints = function() {
+    player.addScore(this.value);
+}
 
-var newBlueGem = function () {
-    var blueGem = new Token();
-    blueGem.value = 50;
-    blueGem.addScore = function() {
-        player.score += blueGem.value;
-        document.getElementById('score').innerHTML = 'Score : ' + player.score;
-    }
+//functions which create instances of new tokens and store them in allTokens array
+function newGem() {
+    var gem = new Token(10);
+    allTokens.push(gem);
+}
+
+function newBlueGem() {
+    var blueGem = new Token(50);
     blueGem.sprite = 'images/GemBlue.png';
     allTokens.push(blueGem);
-};
+}
 
-var newHeart = function() {
-    var heart = new Token();
+function newHeart() {
+    var heart = new Token(0);
     heart.sprite = 'images/Heart.png';
     heart.increaseLives = function() {
-        player.lives++;
-        document.getElementById('lives').innerHTML = 'Lives : ' + player.lives;
+        player.addLife();
     }
     allTokens.push(heart);
-};
+}
 
-var newKey = function() {
-    var key = new Token();
+function newKey() {
+    var key = new Token(0);
     key.sprite = 'images/Key.png';
     key.advanceLevel = function() {
-        player.level++;
-        player.x = -2;
-        player.y = 401;
-        document.getElementById('level').innerHTML = 'You are on Level ' + player.level;
-        var level = setFreq();
-        console.log('levelFreq++',level);
+       player.nextLevel();
     }
     allTokens.push(key);
-};
+}
 
 // This listens for key presses 
 document.addEventListener('keyup', function(e) {

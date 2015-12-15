@@ -250,7 +250,7 @@ var Engine = (function(global) {
         player.x = -2;
         player.y = 401;
         if (timeoutID) {clearInterval(timeoutID);};
-        timeoutID = setInterval(newEnemy, setFreq());
+        timeoutID = setInterval(newEnemy, player.setFreq());
     
     }
 
