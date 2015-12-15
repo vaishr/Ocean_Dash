@@ -255,7 +255,6 @@ var Engine = (function(global) {
     }
 
     function newGame() {
-        console.log('newGame');
         allEnemies = [];
         allTokens = [];
         reset();

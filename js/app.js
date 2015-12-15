@@ -2,13 +2,30 @@ var columnX = [-2,99,200,301,503,604,705];
 var roadRows = [73, 155, 237];
 
 
-// Enemies our player must avoid
-var Enemy = function() {
-    this.sprite = 'images/enemy-bug.png';
+//Superclass for all game players, tokens, and enemies
+var Character = function() {
     this.x = 0;
+    this.y =  180;
+    this.sprite = 'images/enemy-bug.png';
+};
+
+Character.prototype.render = function() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
+
+
+//Sub class for enemies
+var Enemy = function() {
+    Character.call(this);
     this.speed = 180;
     this.y = roadRows[Math.floor(Math.random()*roadRows.length)];
 };
+
+//Sets up prototype chain for Enemy to inherit methods from Character class
+Enemy.prototype = Object.create(Character.prototype);
+
+//Resets constructor to Enemy rather than Character
+Enemy.prototype.constructor = Enemy;
 
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
@@ -33,10 +50,9 @@ Enemy.prototype.setSpeed = function() {
         default:
             return 180;
     }
-}
+};
 
 var setFreq = function() {
-    console.log("player level", player.level);
     switch(player.level) {
         case 3:
             return 250;
@@ -47,13 +63,10 @@ var setFreq = function() {
         default:
             return 800;
     }
-}
-// Draw the enemy on the screen, required method for game
-Enemy.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
 var Player = function() {
+    Character.call(this);
     this.sprite = 'images/char-pink-girl.png';
     this.score = 0;
     this.level = 1;
@@ -62,9 +75,9 @@ var Player = function() {
     this.y = 401;
 }
 
-Player.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-};
+Player.prototype = Object.create(Character.prototype);
+
+Player.prototype.constructor = Player;
 
 Player.prototype.handleInput = function(direction) {
     if (direction === 'left' && this.x > 0) {
@@ -92,17 +105,18 @@ function newEnemy() {
     allEnemies.push(enemy);
 };
 
-var Token = function() {    
+var Token = function() { 
+    Character.call(this);   
     this.visible = true;
     this.x = columnX[Math.floor(Math.random()*columnX.length)];
     this.y = roadRows[Math.floor(Math.random()*roadRows.length)];
     this.sprite = 'images/GemOrange.png';
-}
+};
 
 Token.prototype.render = function() {
     if (!this.visible) return; 
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-}
+};
 
 Token.prototype.update = function() {
     if (this.visible && this.x === player.x && this.y === player.y) {
@@ -112,7 +126,7 @@ Token.prototype.update = function() {
         if (this.advanceLevel) { this.advanceLevel(); };
         return true;
     }
-}
+};
 
 var newGem = function() {
     var gem = new Token();
@@ -122,7 +136,7 @@ var newGem = function() {
         document.getElementById('score').innerHTML = 'Score : ' + player.score;
     }
     allTokens.push(gem);
-}
+};
 
 var newBlueGem = function () {
     var blueGem = new Token();
@@ -133,7 +147,7 @@ var newBlueGem = function () {
     }
     blueGem.sprite = 'images/GemBlue.png';
     allTokens.push(blueGem);
-}
+};
 
 var newHeart = function() {
     var heart = new Token();
@@ -143,7 +157,7 @@ var newHeart = function() {
         document.getElementById('lives').innerHTML = 'Lives : ' + player.lives;
     }
     allTokens.push(heart);
-}
+};
 
 var newKey = function() {
     var key = new Token();
@@ -157,7 +171,7 @@ var newKey = function() {
         console.log('levelFreq++',level);
     }
     allTokens.push(key);
-}
+};
 
 // This listens for key presses 
 document.addEventListener('keyup', function(e) {
