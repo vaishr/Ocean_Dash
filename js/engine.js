@@ -140,7 +140,7 @@ var Engine = (function(global) {
     function checkCollisions() {
       for (var i = 0; i < allEnemies.length; i++) {
         if (allEnemies[i].hit === true) continue;
-        var padding = 20;
+        var padding = 35;
         var maxX = player.x + padding;
         var minX = player.x - padding;
             if ((allEnemies[i].x < maxX) && (allEnemies[i].x > minX) && (player.y == allEnemies[i].y)) {
