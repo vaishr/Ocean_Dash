@@ -109,7 +109,7 @@ var Engine = (function(global) {
         });
         allTokens.forEach(function(token) {
             token.update();
-        })
+        });
     }
 
     /*  Creates button to play again, which when clicked resets game settings and calls newGame to create new enemies and tokens
@@ -131,7 +131,7 @@ var Engine = (function(global) {
                         document.getElementById('level').innerHTML = 'You are on Level ' + player.level;
                         document.getElementById('lives').innerHTML = 'Lives : ' + player.lives;
                         gameOverMessage[0].innerHTML = '';
-                    }
+                    };
     }
 
     /*
@@ -139,21 +139,21 @@ var Engine = (function(global) {
     */
     function checkCollisions() {
       for (var i = 0; i < allEnemies.length; i++) {
-        if (allEnemies[i].hit == true) continue;
+        if (allEnemies[i].hit === true) continue;
         var padding = 20;
         var maxX = player.x + padding;
         var minX = player.x - padding;
             if ((allEnemies[i].x < maxX) && (allEnemies[i].x > minX) && (player.y == allEnemies[i].y)) {
                 reset();
                 allEnemies[i].hit = true;
-                if (player.lives == 0 ) {
+                if (player.lives === 0 ) {
                     gameOver = true;
                     gameOverMessage[0].innerHTML = '<h1>GAME OVER!!!<h1>';
                     playAgain();
                 }
                 if (player.lives > 0) {
                     player.lives--;
-                    if (player.lives < 0) { player.lives = 'over' };
+                    if (player.lives < 0) { player.lives = 'over'; }
                     document.getElementById('lives').innerHTML = 'Lives : ' + player.lives;
                     gameOverMessage[0].innerHTML = '<h1>You are using your last life!<h1>';
                 }
@@ -251,7 +251,7 @@ var Engine = (function(global) {
     function reset() {
         player.x = -2;
         player.y = 401;
-        if (timeoutID) {clearInterval(timeoutID);};
+        if (timeoutID) {clearInterval(timeoutID);}
         timeoutID = setInterval(newEnemy, player.setFreq());
     
     }
