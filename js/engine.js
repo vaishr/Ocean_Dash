@@ -29,10 +29,13 @@ var Engine = (function(global) {
     canvas.height = 606;
     doc.body.appendChild(canvas);
 
-    //Game looks as if it's 'frozen' when this is set to true since all entitites will stop being re-rendered in main function
+    /*
+    Game looks as if it's 'frozen' when this is set to true since all entitites will stop being re-rendered in main function
+    */
     var gameOver = false;
     
-    //For clearing interval between levels and new games and used in reset function
+    /* For clearing interval between levels and new games and used in reset function
+    */
     var timeoutID;
     
     var gameOverMessage = document.body.getElementsByClassName('game_over');
@@ -58,7 +61,6 @@ var Engine = (function(global) {
         if (!gameOver) {
         update(dt);
         render();
-    
         }
         
         /* Set our lastTime variable which is used to determine the time delta
@@ -110,7 +112,8 @@ var Engine = (function(global) {
         })
     }
 
-    //creates button to play again, which when clicked resets game settings and calls newGame to create new enemies and tokens
+    /*  Creates button to play again, which when clicked resets game settings and calls newGame to create new enemies and tokens
+    */
     function playAgain() {
         var playAgainBtn = document.createElement('button');
                     playAgainBtn.innerHTML = 'Play Again'; 
@@ -131,7 +134,9 @@ var Engine = (function(global) {
                     }
     }
 
-    //Checks all the enemies to see if any of them are in the same position as the player (a collision).  If so, then based on the number of extra lives the player has the game will either be reset and display playAgain button (which happens if the player has no extra lives), or if the player has at least 1 extra life the game will continue at the same level with the player position reset and the lives count reduced 
+    /*
+    Checks all the enemies to see if any of them are in the same position as the player (a collision).  If so, then based on the number of extra lives the player has the game will either be reset and display playAgain button (which happens if the player has no extra lives), or if the player has at least 1 extra life the game will continue at the same level with the player position reset and the lives count reduced 
+    */
     function checkCollisions() {
       for (var i = 0; i < allEnemies.length; i++) {
         if (allEnemies[i].hit == true) continue;
@@ -158,7 +163,9 @@ var Engine = (function(global) {
         return false;
     }    
 
-    //Checks the player position to see if it is in the water.  then determines based on the game level if the player advances to the next level or wins the whole game
+    /*
+    Checks the player position to see if it is in the water.  then determines based on the game level if the player advances to the next level or wins the whole game
+    */
     function checkWin() {
         if (player.y < 0) {
             if (player.level < 3 ) {
@@ -249,7 +256,9 @@ var Engine = (function(global) {
     
     }
 
-    //This populates the game with new enemies and tokens and calls reset to set initial player position
+    /*
+    This populates the game with new enemies and tokens and calls reset to set initial player position
+    */
     function newGame() {
         allEnemies = [];
         allTokens = [];
