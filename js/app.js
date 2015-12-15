@@ -1,3 +1,7 @@
+/*
+
+*/
+
 var columnX = [-2,99,200,301,503,604,705];
 var roadRows = [73, 155, 237];
 
@@ -42,10 +46,8 @@ Enemy.prototype.setSpeed = function() {
     switch(player.getLevel()) {
         case 3:
             return 401;
-            break;
         case 2:
             return 301;
-            break;
         default:
             return 180;
     }
@@ -108,10 +110,8 @@ Player.prototype.setFreq = function() {
     switch(this.level) {
         case 3:
             return 250;
-            break;
         case 2:
             return 500;
-            break;
         default:
             return 800;
     }
@@ -148,9 +148,9 @@ Token.prototype.render = function() {
 Token.prototype.update = function() {
     if (this.visible && this.x === player.x && this.y === player.y) {
         this.visible = false;
-        if (this.value > 0) { this.collectPoints() };
-        if (this.increaseLives) { this.increaseLives() };
-        if (this.advanceLevel) { this.advanceLevel() };
+        if (this.value > 0) { this.collectPoints(); }
+        if (this.increaseLives) { this.increaseLives(); }
+        if (this.advanceLevel) { this.advanceLevel(); }
         return true;
     }
 };
@@ -176,7 +176,7 @@ function newHeart() {
     heart.sprite = 'images/Heart.png';
     heart.increaseLives = function() {
         player.addLife();
-    }
+    };
     allTokens.push(heart);
 }
 
@@ -185,7 +185,7 @@ function newKey() {
     key.sprite = 'images/Key.png';
     key.advanceLevel = function() {
        player.nextLevel();
-    }
+    };
     allTokens.push(key);
 }
 
