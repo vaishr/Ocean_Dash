@@ -45,11 +45,11 @@ Enemy.prototype.update = function(dt) {
 Enemy.prototype.setSpeed = function() {
     switch(player.getLevel()) {
         case 3:
-            return 401;
+            return 501;
         case 2:
-            return 301;
+            return 401;
         default:
-            return 180;
+            return 301;
     }
 };
 
