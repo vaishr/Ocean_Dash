@@ -12,7 +12,7 @@ Then open index.html in browser
 ###Important Source Files
 index.html- page markup <br>
 engine.js - game loop engine, called repeatedly to render canvas and update game <br>
-app.js - constructor functions and methods for player, enemy, and token classes <br>
+app.js - constructor functions and methods for player, enemy, and token classes and sublasses<br>
 resources.js - loads images for game and caches repeatedly used images <br>
 
 ###Play Game
