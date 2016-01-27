@@ -1,7 +1,11 @@
 Ocean Dash
 ===============================
 
-Game made using HTML5 Canvas and Object Oriented Programming Principles
+Game made using HTML5 Canvas
+
+<i>Instructions:<br></i>
+Using your keyboard arrows, move your player to reach the ocean without getting run over by giant bugs.
+Collect the heart for an extra life and the key to skip a level. There are 3 levels.  Good luck!
 
 ###Downloading the Project
 ```
@@ -17,8 +21,3 @@ resources.js - loads images for game and caches repeatedly used images <br>
 
 ###Play Game
 http://vaishr.github.io/Ocean_Dash
-
-<i>Instructions:<br></i>
-Using your keyboard arrows, move your player to reach the ocean without getting run over by giant bugs.
-Collect the heart for an extra life and the key to skip a level. There are 3 levels.  Good luck!
-
